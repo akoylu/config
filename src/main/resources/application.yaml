@@ -1,0 +1,43 @@
+server:
+  port: 7777
+
+spring:
+  application:
+    name: config
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        prefix: /config
+        native:
+          search-locations: classpath:configs/
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  #    service-url:
+  #      defaultZone: zone1
+  #      defaultUrl: http://localhost:7777/eureka
+  server:
+    wait-time-in-ms-when-sync-empty: 100
+    eviction-interval-timer-in-ms: 10000
+
+---
+
+spring:
+  boot:
+    admin:
+      client:
+        url: https://akoylu-admin.herokuapp.com/
+        instance:
+          service-url: https://akoylu-config.herokuapp.com/
+  config:
+    activate:
+      on-profile: prod
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/akoylu/configuration

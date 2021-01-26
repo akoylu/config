@@ -1,11 +1,12 @@
 plugins {
 	id 'org.springframework.boot' version '2.4.2'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'com.heroku.sdk.heroku-gradle' version '2.0.0'
 	id 'java'
 }
 
 group = 'akoylu'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
@@ -20,12 +21,17 @@ repositories {
 }
 
 ext {
+	set('springBootAdminVersion', "2.3.1")
 	set('springCloudVersion', "2020.0.0")
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.cloud:spring-cloud-config-server'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+	implementation 'de.codecentric:spring-boot-admin-starter-client'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.jolokia:jolokia-core'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -33,10 +39,16 @@ dependencies {
 
 dependencyManagement {
 	imports {
+		mavenBom "de.codecentric:spring-boot-admin-dependencies:${springBootAdminVersion}"
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
 
 test {
 	useJUnitPlatform()
+}
+
+heroku {
+	appName = "akoylu-config"
+	jdkVersion = 11
 }
