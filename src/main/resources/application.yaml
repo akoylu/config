@@ -24,6 +24,21 @@ eureka:
     wait-time-in-ms-when-sync-empty: 100
     eviction-interval-timer-in-ms: 10000
 
+management:
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  endpoints:
+    jmx:
+      exposure:
+        include: '*'
+    web:
+      exposure:
+        include: '*'
+    enabled-by-default: true
+
 ---
 
 spring:
